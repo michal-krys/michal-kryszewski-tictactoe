@@ -1,3 +1,4 @@
 rootProject.name = 'kodilla-tictactoe'
 include 'tictactoe-game'
+include 'scratch-copies'
 

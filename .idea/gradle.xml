@@ -9,6 +9,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/scratch-copies" />
+            <option value="$PROJECT_DIR$/tictactoe-game" />
           </set>
         </option>
       </GradleProjectSettings>
