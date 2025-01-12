@@ -7,6 +7,7 @@ public class Board {
     String fieldName;
     boolean fieldValue;
 
+        // eNum zamiast Boolean
     Map<String, Boolean> fields = new HashMap<>();
 
     public void initFields() {
@@ -32,7 +33,6 @@ public class Board {
     public void insertCross(String fieldName) throws IllegalArgumentException{
 
         Boolean currentValue = fields.get(fieldName);
-
         if (currentValue == null || currentValue) {
             throw new IllegalArgumentException();
         }
@@ -52,5 +52,6 @@ public class Board {
         albo sprawdź wynik kółek
         albo sprawdź wynik krzyżyków
          */
+        //rozbij na kolumny, wiersze i skosy
     }
 }
