@@ -11,15 +11,24 @@ public class SCRATCHER {
         board.initFields();
 
         System.out.println(board.fields.size());
-        System.out.println(board.checkField("A1"));
 
+        System.out.println(board.fields.get(1));
+        /*
+        for (String key : board.fields.keySet()) {
+            System.out.println(key + ": " + board.checkField(key));
+        }
+
+        System.out.println("" +
+                "\n " +
+        "\n ");
+        board.insertCircle("A2");
         board.insertCross("A1");
+        board.insertCircle("A3");
+        board.insertCross("B1");
 
-        System.out.println(board.checkField("A1"));
-        System.out.println("fieldName: " + board.fieldName);
-        System.out.println("Map keys: " + board.fields.keySet());
-        System.out.println("Map values: " + board.fields.values());
-        System.out.println("Map entrySet: " + board.fields.entrySet());
-        System.out.println(board.checkField("A1"));
+        for (String key : board.fields.keySet()) {
+            System.out.println(key + ": " + board.checkField(key));
+        }
+        */
     }
 }
