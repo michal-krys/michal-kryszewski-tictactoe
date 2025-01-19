@@ -112,7 +112,7 @@ public class BoardTestSuite {
         board.insertCircle("A3");
 
         //then
-        assertEquals("Circle wins!", board.checkWinner());
+        assertEquals(Board.Winner.CIRCLE, board.checkWinner());
     }
 
     @Test
@@ -127,7 +127,7 @@ public class BoardTestSuite {
         board.insertCircle("B3");
 
         //then
-        assertEquals("Circle wins!", board.checkWinner());
+        assertEquals(Board.Winner.CIRCLE, board.checkWinner());
     }
 
     @Test
@@ -142,7 +142,7 @@ public class BoardTestSuite {
         board.insertCircle("C3");
 
         //then
-        assertEquals("Circle wins!", board.checkWinner());
+        assertEquals(Board.Winner.CIRCLE, board.checkWinner());
     }
 
     @Test
@@ -157,7 +157,7 @@ public class BoardTestSuite {
         board.insertCircle("C1");
 
         //then
-        assertEquals("Circle wins!", board.checkWinner());
+        assertEquals(Board.Winner.CIRCLE, board.checkWinner());
     }
 
     @Test
@@ -172,7 +172,7 @@ public class BoardTestSuite {
         board.insertCircle("C2");
 
         //then
-        assertEquals("Circle wins!", board.checkWinner());
+        assertEquals(Board.Winner.CIRCLE, board.checkWinner());
     }
 
     @Test
@@ -187,7 +187,7 @@ public class BoardTestSuite {
         board.insertCircle("C3");
 
         //then
-        assertEquals("Circle wins!", board.checkWinner());
+        assertEquals(Board.Winner.CIRCLE, board.checkWinner());
     }
 
     @Test
@@ -202,7 +202,7 @@ public class BoardTestSuite {
         board.insertCircle("C3");
 
         //then
-        assertEquals("Circle wins!", board.checkWinner());
+        assertEquals(Board.Winner.CIRCLE, board.checkWinner());
     }
 
     @Test
@@ -217,7 +217,7 @@ public class BoardTestSuite {
         board.insertCircle("C1");
 
         //then
-        assertEquals("Circle wins!", board.checkWinner());
+        assertEquals(Board.Winner.CIRCLE, board.checkWinner());
     }
 
     @Test
@@ -232,7 +232,7 @@ public class BoardTestSuite {
         board.insertCross("A3");
 
         //then
-        assertEquals("Cross wins!", board.checkWinner());
+        assertEquals(Board.Winner.CROSS, board.checkWinner());
     }
 
     @Test
@@ -247,7 +247,7 @@ public class BoardTestSuite {
         board.insertCross("B3");
 
         //then
-        assertEquals("Cross wins!", board.checkWinner());
+        assertEquals(Board.Winner.CROSS, board.checkWinner());
     }
 
     @Test
@@ -262,7 +262,7 @@ public class BoardTestSuite {
         board.insertCross("C3");
 
         //then
-        assertEquals("Cross wins!", board.checkWinner());
+        assertEquals(Board.Winner.CROSS, board.checkWinner());
     }
 
     @Test
@@ -277,7 +277,7 @@ public class BoardTestSuite {
         board.insertCross("C1");
 
         //then
-        assertEquals("Cross wins!", board.checkWinner());
+        assertEquals(Board.Winner.CROSS, board.checkWinner());
     }
 
     @Test
@@ -292,7 +292,7 @@ public class BoardTestSuite {
         board.insertCross("C2");
 
         //then
-        assertEquals("Cross wins!", board.checkWinner());
+        assertEquals(Board.Winner.CROSS, board.checkWinner());
     }
 
     @Test
@@ -307,7 +307,7 @@ public class BoardTestSuite {
         board.insertCross("C3");
 
         //then
-        assertEquals("Cross wins!", board.checkWinner());
+        assertEquals(Board.Winner.CROSS, board.checkWinner());
     }
 
     @Test
@@ -322,7 +322,7 @@ public class BoardTestSuite {
         board.insertCross("C3");
 
         //then
-        assertEquals("Cross wins!", board.checkWinner());
+        assertEquals(Board.Winner.CROSS, board.checkWinner());
     }
 
     @Test
@@ -337,7 +337,7 @@ public class BoardTestSuite {
         board.insertCross("C1");
 
         //then
-        assertEquals("Cross wins!", board.checkWinner());
+        assertEquals(Board.Winner.CROSS, board.checkWinner());
     }
 
     @Test
@@ -358,6 +358,20 @@ public class BoardTestSuite {
         board.insertCircle("C3");
 
         //then
-        assertEquals("It's a tie!", board.checkWinner());
+        assertEquals(Board.Winner.TIE, board.checkWinner());
+    }
+
+    @Test
+    void testNoneWinner() {
+        //given
+        Board board = new Board();
+        board.initFields();
+
+        //when
+        board.insertCross("A1");
+        board.insertCircle("A2");
+
+        //then
+        assertEquals(Board.Winner.NONE, board.checkWinner());
     }
 }
