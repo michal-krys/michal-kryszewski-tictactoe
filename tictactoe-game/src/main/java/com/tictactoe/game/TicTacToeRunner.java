@@ -24,8 +24,45 @@ public class TicTacToeRunner {
                 "Enjoy the game!");
 
         do {
-            Board board = new Board();
-            board.initFields();
+            System.out.println("Choose your opponent:\n"
+            + "1 -> Player 2 [O]\n"
+            + "2 -> Silicon Opponent[O]\n");
+            int opponentChoice;
+
+            do {
+                try {
+                    opponentChoice = Integer.parseInt(scanner.nextLine());
+                    if (opponentChoice != 1 && opponentChoice != 2) {
+                        System.out.println("Invalid choice. Please choose 1 or 2.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid choice. Please choose 1 or 2.");
+                    opponentChoice = 0;
+                }
+            } while (opponentChoice != 1 && opponentChoice != 2);
+
+            boolean isPlayingWithAI = opponentChoice == 2;
+
+            AIOpponent aiOpponent = isPlayingWithAI ? new AIOpponent(Board.FieldValue.CIRCLE) : null;
+
+            int gridSize;
+
+            do {
+                try {
+                    System.out.println("How big grid do you want?\n" +
+                            "3 -> 3x3 grid\n" +
+                            "10 -> 10x10 grid (NOT AVAILABLE YET)");
+                    gridSize = Integer.parseInt(scanner.nextLine());
+                    if (gridSize != 3 && gridSize != 10) {
+                        System.out.println("Invalid grid size. Please choose 3 or 10.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid grid size. Please choose 3 or 10.");
+                    gridSize = 0;
+                }
+            } while (gridSize != 3 && gridSize != 10);
+
+            Board board = new Board(gridSize);
             boolean gameOver = false;
 
             System.out.println("New game started");
@@ -40,7 +77,7 @@ public class TicTacToeRunner {
                         board.insertCross(player1Input);
                         validMove1 = true;
                     } catch (IllegalArgumentException e){
-                        System.out.println(e.getMessage() + "\n Try again.\n");
+                        System.out.println(e.getMessage() + "\n Try again.");
                     }
                 }
 
@@ -55,17 +92,22 @@ public class TicTacToeRunner {
                         continue;
                     }
 
-                System.out.println("Player 2 turn:");
+                if (isPlayingWithAI) {
+                    System.out.println("Silicon Opponent's turn:");
+                    aiOpponent.makeMove(board);
+                } else {
+                    System.out.println("Player 2 turn:");
                     boolean validMove2 = false;
                     while (!validMove2) {
                         String player2Input = scanner.nextLine().toUpperCase();
                         try {
                             board.insertCircle(player2Input);
                             validMove2 = true;
-                        } catch (IllegalArgumentException e){
+                        } catch (IllegalArgumentException e) {
                             System.out.println(e.getMessage() + "\n Try again.\n");
                         }
                     }
+                }
 
                   Board.Winner  winner2 = board.checkWinner();
                     if (winner2 != Board.Winner.NONE) {
@@ -78,7 +120,7 @@ public class TicTacToeRunner {
                     }
                 }
 
-            System.out.println("Do you want to play again? Y/N");
+            System.out.println("Press Y to play again.");
             playAgain = scanner.nextLine().equalsIgnoreCase("Y");
 
         } while (playAgain);

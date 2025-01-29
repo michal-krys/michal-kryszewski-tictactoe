@@ -6,11 +6,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTestSuite {
 
+    static final int size = 3;
+    Board board = new Board(size);
+
     @Test
     void testInsertCrossFreeField() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when&then
         assertDoesNotThrow( () -> board.insertCross("A1"));
@@ -27,8 +28,6 @@ public class BoardTestSuite {
     @Test
     void testInsertCrossOccupiedField() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCross("A1");
@@ -56,8 +55,6 @@ public class BoardTestSuite {
     @Test
     void testInsertCircleFreeField() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when&then
         assertDoesNotThrow( () -> board.insertCircle("A1"));
@@ -74,8 +71,6 @@ public class BoardTestSuite {
     @Test
     void testInsertCircleOccupiedField() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCross("A1");
@@ -103,8 +98,6 @@ public class BoardTestSuite {
     @Test
     void testCircleARowWins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCircle("A1");
@@ -118,8 +111,6 @@ public class BoardTestSuite {
     @Test
     void testCircleBRowWins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCircle("B1");
@@ -133,8 +124,6 @@ public class BoardTestSuite {
     @Test
     void testCircleCRowWins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCircle("C1");
@@ -148,8 +137,6 @@ public class BoardTestSuite {
     @Test
     void testCircle1ColumnWins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCircle("A1");
@@ -163,8 +150,6 @@ public class BoardTestSuite {
     @Test
     void testCircle2ColumnWins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCircle("A2");
@@ -178,8 +163,6 @@ public class BoardTestSuite {
     @Test
     void testCircle3ColumnWins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCircle("A3");
@@ -193,8 +176,6 @@ public class BoardTestSuite {
     @Test
     void testCircleDiagonal1Wins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCircle("A1");
@@ -208,8 +189,6 @@ public class BoardTestSuite {
     @Test
     void testCircleDiagonal2Wins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCircle("A3");
@@ -223,8 +202,6 @@ public class BoardTestSuite {
     @Test
     void testCrossARowWins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCross("A1");
@@ -238,9 +215,6 @@ public class BoardTestSuite {
     @Test
     void testCrossBRowWins() {
         //given
-        Board board = new Board();
-        board.initFields();
-
         //when
         board.insertCross("B1");
         board.insertCross("B2");
@@ -253,8 +227,6 @@ public class BoardTestSuite {
     @Test
     void testCrossCRowWins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCross("C1");
@@ -268,8 +240,6 @@ public class BoardTestSuite {
     @Test
     void testCross1ColumnWins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCross("A1");
@@ -283,8 +253,7 @@ public class BoardTestSuite {
     @Test
     void testCross2ColumnWins() {
         //given
-        Board board = new Board();
-        board.initFields();
+
 
         //when
         board.insertCross("A2");
@@ -298,8 +267,6 @@ public class BoardTestSuite {
     @Test
     void testCross3ColumnWins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCross("A3");
@@ -313,8 +280,6 @@ public class BoardTestSuite {
     @Test
     void testCrossDiagonal1Wins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCross("A1");
@@ -328,8 +293,6 @@ public class BoardTestSuite {
     @Test
     void testCrossDiagonal2Wins() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCross("A3");
@@ -343,8 +306,6 @@ public class BoardTestSuite {
     @Test
     void testTieGame() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCross("A1");
@@ -364,8 +325,6 @@ public class BoardTestSuite {
     @Test
     void testNoneWinner() {
         //given
-        Board board = new Board();
-        board.initFields();
 
         //when
         board.insertCross("A1");
