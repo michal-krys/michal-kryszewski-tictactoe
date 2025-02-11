@@ -4,10 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BoardTestSuite {
+public class Board3TestSuite {
 
-    static final int size = 3;
-    Board board = new Board(size);
+    Board board = new Board(3);
 
     @Test
     void testInsertCrossFreeField() {
