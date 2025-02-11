@@ -328,56 +328,22 @@ public class Board {
                     {"E6", "D7", "C8", "B9", "A10"}
             };
 
-            for (int col = 1; col <= gridSize; col++) {
-                for (char row = 'A'; row <= 'A' + gridSize - 5; row++) {
-                    if (checkConsecutive(row, col, 1, 0, 5)) {
-                        return determineFiveInARowWinner(row, col, 1, 0);
-                    }
+            for (String[] combination : winningCombinations) {
+
+                if (fields.get(combination[0]) == FieldValue.CIRCLE &&
+                        fields.get(combination[1]) == FieldValue.CIRCLE &&
+                        fields.get(combination[2]) == FieldValue.CIRCLE &&
+                        fields.get(combination[3]) == FieldValue.CIRCLE &&
+                        fields.get(combination[4]) == FieldValue.CIRCLE) {
+                    return Winner.CIRCLE;
+                } else if (fields.get(combination[0]) == FieldValue.CROSS &&
+                        fields.get(combination[1]) == FieldValue.CROSS &&
+                        fields.get(combination[2]) == FieldValue.CROSS &&
+                        fields.get(combination[3]) == FieldValue.CROSS &&
+                        fields.get(combination[4]) == FieldValue.CROSS){
+                    return Winner.CROSS;
                 }
             }
-
-            for (char row = 'A'; row <= 'A' + gridSize - 5; row++) {
-                for (int col = 1; col <= gridSize - 5 + 1; col++) {
-                    if (checkConsecutive(row, col, 1, 1, 5)) {
-                        return determineFiveInARowWinner(row, col, 1, 1);
-                    }
-                }
-            }
-
-            for (char row = 'A'; row <= 'A' + gridSize - 5; row++) {
-                for (int col = 5; col <= gridSize; col++) {
-                    if (checkConsecutive(row, col, 1, -1, 5)) {
-                        return determineFiveInARowWinner(row, col, 1, -1);
-                    }
-                }
-            }
-
-            /*
-            for (int col = 1; col <= gridSize; col++) {
-                for (char row = 'A'; row < 'A' + gridSize - 4; row++) {
-                    if (checkConsecutive(row, col, 1, 0, 5)) {
-                        return determineFiveInARowWinner(row, col, 1, 0);
-                    }
-                }
-            }
-
-            for (char row = 'A'; row < 'A' + gridSize - 4; row++) {
-                for (int col = 1; col <= gridSize - 4; col++) {
-                    if (checkConsecutive(row, col, 1, 1, 5)) {
-                        return determineFiveInARowWinner(row, col, 1, 1);
-                    }
-                }
-            }
-
-            for (char row = 'A'; row < 'A' + gridSize - 4; row++) {
-                for (int col = 5; col <= gridSize; col++) {
-                    if (checkConsecutive(row, col, 1, -1, 5)) {
-                        return determineFiveInARowWinner(row, col, 1, -1);
-                    }
-                }
-            }
-
-             */
         }
 
         if (fields.values().stream()
