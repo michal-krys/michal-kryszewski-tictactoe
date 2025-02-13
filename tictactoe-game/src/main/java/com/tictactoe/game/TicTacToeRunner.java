@@ -2,6 +2,8 @@ package com.tictactoe.game;
 
 import java.util.Scanner;
 
+import static com.tictactoe.game.AIOpponent.Difficulty.MEDIUM;
+
 public class TicTacToeRunner {
 
     public static void main(String[] args) {
@@ -42,8 +44,29 @@ public class TicTacToeRunner {
             } while (opponentChoice != 1 && opponentChoice != 2);
 
             boolean isPlayingWithAI = opponentChoice == 2;
+            AIOpponent.Difficulty difficulty = AIOpponent.Difficulty.EASY;
 
-            AIOpponent aiOpponent = isPlayingWithAI ? new AIOpponent(Board.FieldValue.CIRCLE) : null;
+            if (isPlayingWithAI) {
+                System.out.println("Choose your difficulty:\n"
+                        + "1 -> Easy\n"
+                        + "2 -> Medium\n"
+                        + "3 -> Hard\n");
+                int difficultyChoice = scanner.nextInt();
+                scanner.nextLine();
+                switch (difficultyChoice) {
+                    case 2:
+                        difficulty = AIOpponent.Difficulty.MEDIUM;
+                        break;
+                    case 3:
+                        difficulty = AIOpponent.Difficulty.HARD;
+                        break;
+                    default:
+                        difficulty = AIOpponent.Difficulty.EASY;
+                }
+            }
+
+            AIOpponent aiOpponent = isPlayingWithAI ?
+                   new AIOpponent(Board.FieldValue.CIRCLE, difficulty) : null;
 
             int gridSize;
 
@@ -51,7 +74,7 @@ public class TicTacToeRunner {
                 try {
                     System.out.println("How big grid do you want?\n" +
                             "3 -> 3x3 grid\n" +
-                            "10 -> 10x10 grid (NOT AVAILABLE YET)");
+                            "10 -> 10x10 grid");
                     gridSize = Integer.parseInt(scanner.nextLine());
                     if (gridSize != 3 && gridSize != 10) {
                         System.out.println("Invalid grid size. Please choose 3 or 10.");
@@ -94,7 +117,17 @@ public class TicTacToeRunner {
 
                 if (isPlayingWithAI) {
                     System.out.println("Silicon Opponent's turn:");
-                    aiOpponent.makeMove(board);
+                    switch (aiOpponent.getDifficulty()) {
+                        case EASY:
+                            aiOpponent.makeRandomMove(board);
+                            break;
+                        case MEDIUM:
+                            aiOpponent.makeMediumMove(board);
+                            break;
+                        case HARD:
+                            aiOpponent.makeHardMove(board);
+                            break;
+                    }
                 } else {
                     System.out.println("Player 2 turn:");
                     boolean validMove2 = false;

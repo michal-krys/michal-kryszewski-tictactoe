@@ -2,7 +2,7 @@ package com.tictactoe.game;
 
 import java.util.*;
 
-public class Board {
+public class Board implements Cloneable{
 
     enum FieldValue {
         EMPTY, CIRCLE, CROSS;
@@ -352,5 +352,14 @@ public class Board {
         }
 
         return Winner.NONE;
+        }
+
+        @Override
+        protected Board clone() {
+            try{
+                return (Board) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new UnsupportedOperationException("Cloning went wrong", e);
+            }
         }
 }
