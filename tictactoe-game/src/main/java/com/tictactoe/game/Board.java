@@ -44,6 +44,13 @@ public class Board implements Cloneable{
         return availableFields;
     }
 
+    public FieldValue getFieldValue(String fieldName) throws IllegalArgumentException {
+        if (!fields.containsKey(fieldName)) {
+            throw new IllegalArgumentException("Invalid field name: " + fieldName);
+        }
+        return fields.get(fieldName);
+    }
+
     public void printBoard() {
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
@@ -81,29 +88,6 @@ public class Board implements Cloneable{
         } else {
             throw new IllegalArgumentException("Invalid field name: " + fieldName);
         }
-    }
-
-    private boolean checkConsecutive(char startRow, int startCol, int rowIncrement, int colIncrement, int length) {
-
-        FieldValue first = fields.get(startRow + String.valueOf(startCol));
-        if (first == FieldValue.EMPTY) return false;
-
-        for (int i = 1; i < length; i++) {
-            startRow += rowIncrement;
-            startCol += colIncrement;
-            String fieldKey = startRow + String.valueOf(startCol);
-            if (!fields.containsKey(fieldKey) || fields.get(fieldKey) != first) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private Winner determineFiveInARowWinner(char startRow, int startCol, int rowIncrement, int colIncrement) {
-
-        FieldValue first = fields.get(startRow + String.valueOf(startCol));
-        return first == FieldValue.CIRCLE ? Winner.CIRCLE : Winner.CROSS;
-
     }
 
     public Winner checkWinner() {
@@ -352,14 +336,5 @@ public class Board implements Cloneable{
         }
 
         return Winner.NONE;
-        }
-
-        @Override
-        protected Board clone() {
-            try{
-                return (Board) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new UnsupportedOperationException("Cloning went wrong", e);
-            }
         }
 }

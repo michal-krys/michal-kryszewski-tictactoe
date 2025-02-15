@@ -2,8 +2,6 @@ package com.tictactoe.game;
 
 import java.util.Scanner;
 
-import static com.tictactoe.game.AIOpponent.Difficulty.MEDIUM;
-
 public class TicTacToeRunner {
 
     public static void main(String[] args) {
@@ -44,29 +42,7 @@ public class TicTacToeRunner {
             } while (opponentChoice != 1 && opponentChoice != 2);
 
             boolean isPlayingWithAI = opponentChoice == 2;
-            AIOpponent.Difficulty difficulty = AIOpponent.Difficulty.EASY;
-
-            if (isPlayingWithAI) {
-                System.out.println("Choose your difficulty:\n"
-                        + "1 -> Easy\n"
-                        + "2 -> Medium\n"
-                        + "3 -> Hard\n");
-                int difficultyChoice = scanner.nextInt();
-                scanner.nextLine();
-                switch (difficultyChoice) {
-                    case 2:
-                        difficulty = AIOpponent.Difficulty.MEDIUM;
-                        break;
-                    case 3:
-                        difficulty = AIOpponent.Difficulty.HARD;
-                        break;
-                    default:
-                        difficulty = AIOpponent.Difficulty.EASY;
-                }
-            }
-
-            AIOpponent aiOpponent = isPlayingWithAI ?
-                   new AIOpponent(Board.FieldValue.CIRCLE, difficulty) : null;
+            AIOpponent aiOpponent = isPlayingWithAI ? new AIOpponent() : null;
 
             int gridSize;
 
@@ -114,20 +90,11 @@ public class TicTacToeRunner {
                         gameOver = true;
                         continue;
                     }
+                    board.printBoard();
 
                 if (isPlayingWithAI) {
                     System.out.println("Silicon Opponent's turn:");
-                    switch (aiOpponent.getDifficulty()) {
-                        case EASY:
-                            aiOpponent.makeRandomMove(board);
-                            break;
-                        case MEDIUM:
-                            aiOpponent.makeMediumMove(board);
-                            break;
-                        case HARD:
-                            aiOpponent.makeHardMove(board);
-                            break;
-                    }
+                    aiOpponent.makeRandomMove(board);
                 } else {
                     System.out.println("Player 2 turn:");
                     boolean validMove2 = false;
@@ -151,6 +118,7 @@ public class TicTacToeRunner {
                         }
                         gameOver = true;
                     }
+                    board.printBoard();
                 }
 
             System.out.println("Press Y to play again.");
