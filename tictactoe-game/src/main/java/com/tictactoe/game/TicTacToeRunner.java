@@ -1,14 +1,88 @@
 package com.tictactoe.game;
 
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class TicTacToeRunner {
+
+    private static class ScoreRecord {
+        String playerName;
+        int gamesPlayed;
+        int gamesWon;
+        String lastPlayed;
+
+        public ScoreRecord(String playerName, int gamesPlayed, int gamesWon, String lastPlayed) {
+            this.playerName = playerName;
+            this.gamesPlayed = gamesPlayed;
+            this.gamesWon = gamesWon;
+            this.lastPlayed = lastPlayed;
+        }
+
+        @Override
+        public String toString() {
+            return playerName + " | " + gamesPlayed + " | " + gamesWon + " | " + lastPlayed;
+        }
+    }
+
+    public static void saveToScoreboard(String filePath, String playerName, boolean gameOver) {
+        Path path = Paths.get(filePath);
+        Map<String, ScoreRecord> scoreboard = new HashMap<>();
+
+        if (Files.exists(path)) {
+            try (Stream<String> lines = Files.lines(path)) {
+                lines.forEach( line -> {
+                    String[] parts = line.split(" | ");
+                    if(parts.length == 4) {
+                        String name = parts[0].trim();
+                        int games = Integer.parseInt(parts[1].trim());
+                        int wins = Integer.parseInt(parts[2].trim());
+                        String lastUpdate = parts[3].trim();
+                        scoreboard.put(name, new ScoreRecord(name, games, wins, lastUpdate));
+                    }
+                });
+            } catch (IOException e) {
+                System.out.println("Error reading scoreboard file: " + e.getMessage());
+            }
+        }
+
+        ScoreRecord record = scoreboard.getOrDefault(playerName, new ScoreRecord(playerName, 0, 0, getCurrentDate()));
+        record.gamesPlayed++;
+        if (gameOver) {
+            record.gamesWon++;
+        }
+        record.lastPlayed = getCurrentDate();
+        scoreboard.put(playerName, record);
+
+        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            for (ScoreRecord rec : scoreboard.values()) {
+                writer.write(rec.playerName + " | " + rec.gamesPlayed + " | " + rec.gamesWon + " | " + rec.lastPlayed);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error writing to scoreboard file: " + e.getMessage());
+        }
+
+    }
+
+    private static String getCurrentDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return LocalDateTime.now().format(formatter);
+    }
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
         boolean playAgain;
-
+        String scoreBoardFile = "C:\\Users\\mkrys\\IdeaProjects\\michal-kryszewski-tictactoe\\tictactoe-game\\src\\main\\resources\\scoreboard";
+        
         System.out.println("Welcome to Tic Tac Toe!\n"
                 + "What is your name?");
 
@@ -22,6 +96,19 @@ public class TicTacToeRunner {
                 "Columns are 1, 2 and 3\n" +
                 "To enter the move you have to write for example \"B2\"\n" +
                 "Enjoy the game!");
+
+        System.out.println("Do you want to see the Scoreboard? (Y/N)");
+        String answer = scanner.nextLine().trim().toUpperCase();
+
+        if (answer.equalsIgnoreCase("Y")) {
+            Path file = Paths.get("C:\\Users\\mkrys\\IdeaProjects\\michal-kryszewski-tictactoe\\tictactoe-game\\src\\main\\resources\\scoreboard");
+            try (Stream<String> stream = Files.lines(file)) {
+                System.out.println("SCOREBOARD:");
+                stream.forEach(System.out::println);
+            } catch (IOException e) {
+                System.out.println("wystąpił błąd: " + e);
+            }
+        }
 
         do {
             System.out.println("Choose your opponent:\n"
@@ -88,13 +175,23 @@ public class TicTacToeRunner {
                             case TIE -> System.out.println("It's a tie!");
                         }
                         gameOver = true;
+                        try {
+                            System.out.println("Saving to scoreboard");
+                            saveToScoreboard(scoreBoardFile, playerName, gameOver);
+                        }catch (Exception e) {
+                            System.out.println("Error saving to scoreboard: " + e.getMessage());
+                        }
                         continue;
                     }
                     board.printBoard();
 
                 if (isPlayingWithAI) {
                     System.out.println("Silicon Opponent's turn:");
-                    aiOpponent.makeRandomMove(board);
+                    try {
+                        aiOpponent.makeRandomMove(board);
+                    } catch (Exception e) {
+                        System.out.println("Silicon Opponent run into an issue: " + e.getMessage());
+                    }
                 } else {
                     System.out.println("Player 2 turn:");
                     boolean validMove2 = false;
